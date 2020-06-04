@@ -16,7 +16,7 @@
     <div class="container">
         <div class="row">
             <div class="col-4 bg-light">
-                <p class="search-header my-1">Search for a city</p>
+                <p class="search-bar font-weight-bold my-1">Search for a city:</p>
                 <div class="input-group mb-3">
                     <input id="city-input" type="text" class="form-control" placeholder="Enter city name" aria-label="Enter city name">
                     <div class="input-group-append">
@@ -24,8 +24,8 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-                    <form id="history"></form>
                 </div>
+                <form id="history"></form>
             </div>
             <div class="col-8">
                 <div class="row mr-0">
@@ -33,7 +33,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <span id="city-name" class="city-name align-middle"></span>
-                                <img id="current-pic" src="" alt="">
+                                <img id="icon" src="" alt="">
                             </div>
                         </div>
                         <div class="row">
@@ -48,12 +48,12 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <p id="wind-speed"></p>
+                                <p id="wind"></p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12 d-flex">
-                                <p id="UV-index"></p>
+                                <p id="uv"></p>
                             </div>
                         </div>
                     </div>
@@ -73,6 +73,6 @@
             </div>
         </div>
     </div>
-
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="./assets/js/homepage.js"></script>
 </body>    
