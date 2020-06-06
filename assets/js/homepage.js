@@ -47,7 +47,6 @@ function initPage() {
         var queryURL = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=' + apiKey;
         axios.get(queryURL)
         .then(function(response){
-            //  show current date
             var currentDate = new Date(response.data.dt*1000);
             var day = currentDate.getDate();
             var month = currentDate.getMonth() + 1;
@@ -71,21 +70,19 @@ function initPage() {
             uvEl.append(UVIndex);
             var uvColor = response.data[0].value;
             var bgcolor;
-            debugger;
             if (uvColor <= 2.99) {
                 bgcolor = "green";
             }
-            else if (uvColor >= 3 || uvColor <= 5.99) {
+            else if (uvColor >= 3 && uvColor <= 5.99) {
                 bgcolor = "yellow";
             }
-            else if (uvColor >= 6 || uvColor <= 7.99) {
+            else if (uvColor >= 6 && uvColor <= 7.99) {
                 bgcolor = "orange";
             }
             else {
                 bgcolor = "red";
             }
             UVIndex.setAttribute('style', 'background-color:' + bgcolor);
-
         });
         //  5 day forecast
         var cityID = response.data.id;
@@ -119,7 +116,7 @@ function initPage() {
             })
         });  
     }
-    //conversion formula
+    //conversion formula from kelvin to fahrenheit 
     function k2f(K) {
         return Math.floor((K - 273.15) *1.8 +32);
     }    
