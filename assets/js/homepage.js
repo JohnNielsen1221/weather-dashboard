@@ -12,7 +12,7 @@ function initPage() {
     var cityNameEl = document.getElementById('city-name');
     console.log(searchHistory);
 
-
+    //initialize search for given city name
     searchEl.addEventListener('click',function() {
         var searchTerm = inputEl.value;
         getWeather(searchTerm);
@@ -21,6 +21,7 @@ function initPage() {
         renderSearchHistory();
     });
 
+    //create a new element showing search history of cities
     function renderSearchHistory() {
         historyEl.innerHTML = '';
         for (var i=0; i<searchHistory.length; i++) {
@@ -41,16 +42,13 @@ function initPage() {
             getWeather(searchHistory[searchHistory.length - 1]);
         }
 
+    // pull weather info from openweathermap to display   
     function getWeather(cityName) {
-        //  Using saved city name, execute a current condition get request from open weather map api
         var queryURL = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=' + apiKey;
         axios.get(queryURL)
         .then(function(response){
-            // console.log(response);
-//  Parse response to display current conditions
-        //  Method for using 'date' objects obtained from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+            //  show current date
             var currentDate = new Date(response.data.dt*1000);
-            // console.log(currentDate);
             var day = currentDate.getDate();
             var month = currentDate.getMonth() + 1;
             var year = currentDate.getFullYear();
@@ -67,18 +65,34 @@ function initPage() {
         axios.get(UVQueryURL)
         .then(function(response){
             var UVIndex = document.createElement('span');
-            UVIndex.setAttribute('class','badge badge-danger');
+            UVIndex.setAttribute('class','badge');
             UVIndex.innerHTML = response.data[0].value;
             uvEl.innerHTML = 'UV Index: ';
             uvEl.append(UVIndex);
+            var uvColor = response.data[0].value;
+            var bgcolor;
+            debugger;
+            if (uvColor <= 2.99) {
+                bgcolor = "green";
+            }
+            else if (uvColor >= 3 || uvColor <= 5.99) {
+                bgcolor = "yellow";
+            }
+            else if (uvColor >= 6 || uvColor <= 7.99) {
+                bgcolor = "orange";
+            }
+            else {
+                bgcolor = "red";
+            }
+            UVIndex.setAttribute('style', 'background-color:' + bgcolor);
+
         });
-//  Using saved city name, execute a 5-day forecast get request from open weather map api
+        //  5 day forecast
         var cityID = response.data.id;
         var forecastQueryURL = 'https://api.openweathermap.org/data/2.5/forecast?id=' + cityID + '&appid=' + apiKey;
         axios.get(forecastQueryURL)
         .then(function(response){
-//  Parse response to display forecast for next 5 days underneath current conditions
-            // console.log(response);
+            //  Parse response to display forecast for next 5 days underneath current conditions
             var forecastEls = document.querySelectorAll('.forecast');
             for (i=0; i<forecastEls.length; i++) {
                 forecastEls[i].innerHTML = '';
@@ -105,8 +119,10 @@ function initPage() {
             })
         });  
     }
+    //conversion formula
     function k2f(K) {
         return Math.floor((K - 273.15) *1.8 +32);
     }    
 };
+//allows page to reload search history and recall last searched history on refresh
 initPage();            
